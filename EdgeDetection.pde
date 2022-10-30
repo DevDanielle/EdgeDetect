@@ -1,8 +1,9 @@
 /*
   Author: Danielle Kelly
-  CSC 545 Exercise 5
-  Perform edge detection using a mask
+  
+  Edge detection using a mask
 */
+
 String fname1 = "emptyroad.jpg", fname2 = "";
 String loadName = fname1;
 float[][] k1 = {{1/9.0, 1/9.0, 1/9.0}, {1/9.0, 1/9.0, 1/9.0}, {1/9.0, 1/9.0, 1/9.0}}; //Blur
@@ -13,6 +14,7 @@ float[][] k5 = {{-1.0, 0.0, 1.0}, {-2.0, 0.0, 2.0}, {-1.0, 0.0, 1.0}};  //Sobel 
 float[][] k6 = {{-1.0, -1.0, -1.0}, {-1.0, 8.0, -1.0}, {-1.0, -1.0, -1.0}}; //Laplacian
 PImage[] img = new PImage[10]; //I used an array of images; you could do it differently
 int imgIndex = 0; //Determines which image to display
+
 void setup() {
   size(500, 500);
   surface.setResizable(true);
@@ -20,7 +22,7 @@ void setup() {
   img[0] = loadImage(loadName);
   surface.setSize(img[0].width, img[0].height);
   imgIndex = 0;
-  //Add code here to call filter function
+  //Code to call each filter function
   img[1] = convolve(img[0], k1); //blur
   img[2] = convolve(img[0], k2); //Prewitt horizontal
   img[3] = convolve(img[0], k3); //Prewitt vertical
@@ -32,16 +34,16 @@ void setup() {
   }
   img[7] = addImages(img[1], img[6]); //blurred + laplacian
   img[8] = subtractImages(img[0], img[1]); 
-  img[9] = addImages(img[0], img[8]); //unsharp filter
-    
-    
+  img[9] = addImages(img[0], img[8]); //unsharp filter   
 }
+
 void draw() {
   image(img[imgIndex], 0, 0);
 }
+
 PImage convolve(PImage source, float[][] kernel) {
   PImage target = createImage(source.width, source.height, RGB);
-  //Your code here to implement edge detection 
+  //Code to implement edge detection 
     for (int y = 1; y < source.height - 1; y++) {
     for (int x =1; x < source.width -1; x++) {
       float r = 0, g = 0, b = 0; 
@@ -89,7 +91,7 @@ PImage convolve(PImage source, float[][] kernel) {
 //Add two images and return the result (used to add an edge image and for unsharp filtering)
 PImage addImages(PImage img1, PImage img2) {
   PImage target = createImage(img1.width, img2.height, RGB); //Assume both images are the same size
-  //Your code here to add images; make sure pixels stay in range 
+  //Code to add images; make sure pixels stay in range 
   for (int y = 0; y < img1.height; y++) {
     for (int x = 0; x <img1.width; x++) {
       color c1 = img1.get(x, y);
@@ -107,7 +109,7 @@ PImage addImages(PImage img1, PImage img2) {
 //Subtract images - use abs value; one will be a blurred image (used for unsharp filtering)
 PImage subtractImages(PImage img1, PImage img2) {
   PImage target = createImage(img1.width, img2.height, RGB); //Assume they are the same size
-  //Your code here to subtract images - use abs value
+  //Code to subtract images - use abs value
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       color c1 = img1.get(x, y);
@@ -123,7 +125,7 @@ PImage subtractImages(PImage img1, PImage img2) {
   return target;
 }
 void keyReleased() {
-  //Add code to set imgIndex to select image to display
+  //Code to set imgIndex to select image to display
   if (key >= '0' && key <= '9') {
     imgIndex = int(str(key));
   }
